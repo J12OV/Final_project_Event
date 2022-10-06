@@ -3,19 +3,28 @@
 {% block title %}Event: {{ Event.name }} {% endblock %}
 
 {% block content %}
-
+{% if error %}Error: {{ error }}	{% endif %}
 <div class="name"> Event name: {{ event.name }}</div>
-<div class="type"> Event type: {{ event.type }}</div>
+<div class="typeonline"> Event type: {{ event.typeonline }}</div>
+<div class="typefysical"> Event type: {{ event.typefysical }}</div>
 <div class="location"> Location: {{ event.location }}</div>
+<!--TODO category -->
 <div class="startdatetime"> Date from: {{ event.startdatetime }}</div>
 <div class="enddatetime"> Date till: {{ event.enddatetime }}</div>
 <div class="organizer"> Organizer name: {{ event.organizer }}</div>
-<div class="description"> Description{{ event.description }}</div>
+<div class="descr"> Description:{{ event.descr }}</div>
 <div class="photo"> Photo: {{ event.photo }}
   <a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a>
 </div>
+<form method="post" action="">
+     {% csrf_token %}
+    <label for="participate" >I want to participate:</label>
+<input type="checkbox" name="participate" id="participate" value="{{ event.participate }}">
+<button type="submit">Submit</button>
+
+</form>
 {% if event.user.id == request.user.id %}
-    <a href="{% url 'editprofile' %}">EDIT EVENT</a>
+    <a href="{% url 'edit_event' %}">EDIT EVENT</a>
 {% endif %}
 
 

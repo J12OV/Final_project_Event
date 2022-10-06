@@ -5,7 +5,7 @@
         {% if request.user.is_authenticated %}
             <li><a href="{% url 'create_event' %}">Create Event</a></li> <!-- TODO Create room: new_room -->
             <li><a href="{% url 'events' %}">Events</a></li>
-            <li><a href="{% url 'users' %}">Users</a></li>    <!-- TODO Create room: home -->
+            <li><a href="">Users</a></li>    <!-- TODO Create room: home -->
             <li class="last-item">User: <i>{{ request.user.username }}</i>  <a href="{% url 'logout' %}">Logout</a></li>
         {% endif %}
         {% if not request.user.is_authenticated %}

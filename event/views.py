@@ -48,7 +48,19 @@ def search(request):
 
 @login_required
 def event(request, pk):
-    event = Event.objects.get(id=pk)  # najdeme událost se zadaným id
+    event = Event.objects.get(id=pk)
+    if request.method == 'POST':
+        participate = request.POST.get('participate')
+        try:
+            participant = Participant.objects.create(
+                user=request.user,
+                event=event,
+            )
+        except:
+            print("Participant is already signed up")
+            context = {'event': event, 'error': "Participant is already signed"}
+            return render(request, 'event/event.html', context)
+
     participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
 
     # # pokud zadáme novou zprávu, musíme ji zpracovat
@@ -69,8 +81,8 @@ def event(request, pk):
     #         )
     #     return HttpResponseRedirect(request.path_info)
     #
-    # context = {'room': room, 'messages': messages}
-    # return render(request, "chatterbox/room.html", context)
+    context = {'event': event, 'participants': participants}
+    return render(request, "event/event.html", context)
 
 @login_required
 def events(request):
@@ -84,14 +96,20 @@ def events(request):
 def create_event(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
-        typeonline = request.POST.get('typeonline').strip()
-        typefysical = request.POST.get('typefysical').strip()
+        # TODO
+        typeonline = False
+        if request.POST.get('typeonline') == 'on':
+            typeonline = True
+        typefysical = False
+        if request.POST.get('typefysical') == 'on':
+            typefysical = True
+
         location = request.POST.get('location').strip()
         startdatetime = request.POST.get('startdatetime').strip()
         enddatetime = request.POST.get('startdatetime').strip()
         organizer = request.POST.get('organizer').strip()
         descr = request.POST.get('descr').strip()
-        photo = request.POST.get('photo').strip()
+        photo = request.POST.get('upload')
 
         if len(name) > 0 and len(descr) > 0:
             event = Event.objects.create(
@@ -135,7 +153,7 @@ class EventEditForm(ModelForm):
 #view
 @method_decorator(login_required, name ='dispatch')
 class EditEvent(UpdateView):
-    template_name='event/edit_room.html'
+    template_name='event/edit_event.html'
     model = Event
     form_class = EventEditForm
     success_url = reverse_lazy('home')

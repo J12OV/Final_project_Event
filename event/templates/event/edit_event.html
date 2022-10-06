@@ -1,17 +1,18 @@
 {% extends 'main.html' %}
 
-{% block title %}Edit user: {{ profile.user.username }}{% endblock %}
+{% block title %}Edit event: {{ event.event.title }} {% endblock %}
 
 {% block content %}
 
-{% if profile.user.id == request.user.id %}
+
 <form method="POST" action="">
     {% csrf_token %}
     <table>{{ form }}</table>
+
     <button type="SUBMIT">SAVE CHANGES</button>
 </form>
 <!-- TODO redirect -->
 
-{% endif %}
+
 
 {% endblock %}

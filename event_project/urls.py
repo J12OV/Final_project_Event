@@ -30,16 +30,13 @@ urlpatterns = [
     path('search/', event.views.search, name="search"),
     # path('search/<s>', chatterbox.views.search, name="search_s"),  # url patterns
 
-    # path('room/<str:pk>/', chatterbox.views.room, name='room'),  # {% url 'room'
+    path('event/<str:pk>/', event.views.event, name='event'),  # {% url 'room'
     path('events/', event.views.events, name='events'),
-
-    #
-    # path('create_room/', chatterbox.views.create_room, name="create_room"),
-    # # path('create_room/new_room', chatterbox.views.new_room, name="create_room"),
-    # path('delete_room/<pk>/', chatterbox.views.delete_room, name="delete_room"),
+    path('create_event/', event.views.create_event, name="create_event"),
+    path('delete_event<pk>/', event.views.delete_event, name="delete_event"),
     # path('delete_room_yes/<pk>/', chatterbox.views.delete_room_yes, name="delete_room_yes"),
-    # path('edit_room/<pk>/', chatterbox.views.EditRoom.as_view(), name="edit_room"),
-
+    path('edit_event/<pk>/', event.views.EditEvent.as_view(), name="edit_event"),
+    # # path('create_room/new_room', chatterbox.views.new_room, name="create_room"),
 
     # accounts aplikace
     path("accounts/", include("accounts.urls")),

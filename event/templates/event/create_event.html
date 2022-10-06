@@ -7,16 +7,19 @@
     {% csrf_token %}
     <label for="name">Name:</label>
     <input type="text" name="name" id="name"> <br>
-    <label for="type">Type:</label>
-    <input type="text" name="type" id="type"> <br>
-    <label for="name">Location:</label>
-    <input type="text" name="loca" id="location"> <br>
-    <label for="name">Date from:</label>
-    <input type="text" name="name" id="date_from"> <br>
-    <label for="name">Date till:</label>
-    <input type="text" name="name" id="date_to"> <br>
+    <label for="typeonline">Type online:</label>
+    <input type="Checkbox" name="typeonline" id="typeonline"> <br>
+    <label for="typefysical">Type fysical:</label>
+    <input type="Checkbox" name="typefysical" id="typefysical"> <br>
+    <label for="location">Location:</label>
+    <input type="text" name="location" id="location"> <br>
+    <label for="startdatetime">Date from:</label>
+    <input type="datetime-local" name="startdatetime" id="startdatetime"> <br>
+    <label for="enddatetime">Date till:</label>
+    <input type="datetime-local" name="enddatetime" id="enddatetime"> <br>
     <label for="name">Organizer:</label>
-    <input type="text" name="name" id="organizer"> <br>
+    <input type="organizer" name="organizer" id="organizer"> <br>
+    <label for="name">Photo:</label>
     <input type="file" name="upload" accept="*">
     <label for="descr">Description:</label>
     <input type="text" name="descr" id="descr"> <br>

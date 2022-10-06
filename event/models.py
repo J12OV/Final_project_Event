@@ -6,6 +6,7 @@ from django.db import models
 class Event(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
+    # TODO category = models.ForeignKey(Category, on_delete=models.SET_NULL, null)
     typeonline = models.BooleanField(null=True, blank=True)
     typefysical = models.BooleanField(null=True, blank=True)
     location = models.TextField(null=True,blank=True)
@@ -14,8 +15,8 @@ class Event(models.Model):
     organizer = models.TextField(null=True, blank=True)
     descr = models.TextField(null=True, blank=True)
     photo = models.TextField(null=True, blank=True)
-    # participants = models.ManyToManyField(
-    #     User, related_name='participants', blank=True)
+    participants = models.ManyToManyField(User, related_name='participants', blank=True)
+
     # created = models.DateTimeField(auto_now_add=True)
     # updated = models.DateTimeField(auto_now=True)
 
@@ -49,10 +50,12 @@ class Participant(models.Model):
     #    ordering = ['user.last_name', 'user.first_name']  # descending order
 
     def __str__(self):
-        return self.name
+        return self.event.name
 
-    # def events_count(self):
-    #     user_events = self.event_set.all()
-    #     return user_events.count()
+    def events_count(self):
+         user_events = self.event_set.all()
+         return user_events.count()
 
 
+class Category():
+    pass
