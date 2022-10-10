@@ -3,12 +3,13 @@
 {% block title %}Event: {{ Event.name }} {% endblock %}
 
 {% block content %}
-{% if error %}Error: {{ error }}	{% endif %}
+
 <div class="name"> Event name: {{ event.name }}</div>
+<!--TODO category -->
+<div class="category"> Event category: {{ event.category }}</div>
 <div class="typeonline"> Event type: {{ event.typeonline }}</div>
 <div class="typefysical"> Event type: {{ event.typefysical }}</div>
 <div class="location"> Location: {{ event.location }}</div>
-<!--TODO category -->
 <div class="startdatetime"> Date from: {{ event.startdatetime }}</div>
 <div class="enddatetime"> Date till: {{ event.enddatetime }}</div>
 <div class="organizer"> Organizer name: {{ event.organizer }}</div>
@@ -20,7 +21,11 @@
      {% csrf_token %}
     <label for="participate" >I want to participate:</label>
 <input type="checkbox" name="participate" id="participate" value="{{ event.participate }}">
-<button type="submit">Submit</button>
+<button type="submit">Submit</button><br><br>
+<div class="error">
+{% if error %}Error: {{ error }}	{% endif %}
+</div>
+
 
 </form>
 {% if event.user.id == request.user.id %}

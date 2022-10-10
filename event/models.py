@@ -1,11 +1,25 @@
+
 from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 
 # Create your models here.
+
+
+class Category(models.Model):
+    name=models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+
 class Event(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+
+
     # TODO category = models.ForeignKey(Category, on_delete=models.SET_NULL, null)
     typeonline = models.BooleanField(null=True, blank=True)
     typefysical = models.BooleanField(null=True, blank=True)
@@ -57,5 +71,4 @@ class Participant(models.Model):
          return user_events.count()
 
 
-class Category():
-    pass
+

@@ -62,11 +62,11 @@ nav li {
 }
 
 /* rooms.html */
-.list-of-rooms {
+.list-of-events {
     font-size: 32px;
 }
 
-.rooms-list ul {
+.events-list ul {
     list-style: none;
 }
 
@@ -74,6 +74,11 @@ nav li {
 .room-descr {
     font-size: 20px;
     margin-bottom: 20px;
+}
+
+.error {
+    font-size: 16px;
+    background-color:#fc0b03;
 }
 
 .message-form {

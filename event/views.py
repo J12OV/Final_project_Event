@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
 
-from event.models import Event, Participant
+from event.models import Event, Participant, Category
 
 #
 # # Create your views here.
@@ -96,7 +96,9 @@ def events(request):
 def create_event(request):
     if request.method == 'POST':
         name = request.POST.get('name').strip()
-        # TODO
+        category_id = request.POST.get('category').strip()
+        category = Category.objects.get(id=category_id)
+
         typeonline = False
         if request.POST.get('typeonline') == 'on':
             typeonline = True
@@ -111,10 +113,11 @@ def create_event(request):
         descr = request.POST.get('descr').strip()
         photo = request.POST.get('upload')
 
-        if len(name) > 0 and len(descr) > 0:
+        if len(name) > 0:
             event = Event.objects.create(
                 host=request.user,
                 name=name,
+                category=category,
                 typeonline=typeonline,
                 typefysical=typefysical,
                 location=location,
@@ -125,7 +128,9 @@ def create_event(request):
 
             return redirect('event', pk=event.id)
 
-    return render(request, 'event/create_event.html')
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, 'event/create_event.html', context)
 
 
 @login_required
