@@ -14,13 +14,19 @@
 <div class="enddatetime"> Date till: {{ event.enddatetime }}</div>
 <div class="organizer"> Organizer name: {{ event.organizer }}</div>
 <div class="descr"> Description:{{ event.descr }}</div>
-<div class="photo"> Photo: {{ event.photo }}
+<div class="photo"> Photo:
   <a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a>
 </div>
 <form method="post" action="">
      {% csrf_token %}
-    <label for="participate" >I want to participate:</label>
-<input type="checkbox" name="participate" id="participate" value="{{ event.participate }}">
+
+    {% if request.user in event.participants.all %}
+         <label for="logout">I want to logout:</label>
+         <input type="checkbox" name="logout" id="logout" value="True">
+    {% else %}
+        <label for="participate">I want to participate:</label>
+        <input type="checkbox" name="participate" id="participate" value="True">
+    {% endif %}
 <button type="submit">Submit</button><br><br>
 <div class="error">
 {% if error %}Error: {{ error }}	{% endif %}
@@ -31,13 +37,55 @@
 {% if event.user.id == request.user.id %}
     <a href="{% url 'edit_event' %}">EDIT EVENT</a>
 {% endif %}
+<div class="message-form">
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="body">Message: </label>
+            <textarea name="body" id="body" rows="1" cols="100"> </textarea>
+            <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt ,image/*,*" -->
+            <input type="submit" value="Send">
+        </form>
+</div>
 
-
-
-
-
-
-
-
-
+ <div class="messages-box">
+    {% for message in messages %}
+        {% if message.user == request.user %}
+            <div class="my-message">
+                <div class="my-message-info">
+                    <span class="message-user">{{ message.user }}</span>
+                    <span class="message-time">{{ message.created }}</span>
+                </div>
+                <div class="my-message-body">{{ message.body }}</div>
+                {% if message.file %}  <!-- zobrazit obrázek -->
+                    <div class="my-message-file">
+                        <a href="{{ message.file }}"><img src="{{ message.file }}" width="50px"></a>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="other-message">
+                <div class="other-message-info">
+                    <span class="message-user">{{ message.user }}</span>
+                    <span class="message-time">{{ message.created }}</span>
+                </div>
+                <div class="other-message-body">{{ message.body }}</div>
+                {% if message.file %}  <!-- zobrazit obrázek -->
+                    <div class="other-message-file">
+                        <a href="{{ message.file }}"><img src="{{ message.file }}" width="50px"></a>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+

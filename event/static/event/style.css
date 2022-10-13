@@ -66,9 +66,10 @@ nav li {
 
 .list-of-events {
     font-size: 24px;
+    margin-right: 600px;
 }
 
-.events-list ul {
+.events-list {
     list-style: none;
 
 }
@@ -81,7 +82,7 @@ nav li {
 
 
 .filter_ev {
-    margin-left: 300px;
+
 }
 
 .evt_tab {
@@ -91,6 +92,8 @@ nav li {
     border-color: black;
     column-width: 80px;
     text-align: center;
+    margin-top: 30px;
+
 
 }
 

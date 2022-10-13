@@ -3,7 +3,7 @@
 {% block title %}Create new event{% endblock %}
 
 {% block content %}
-  <form method="post" action=""> <!-- TODO new_event -->
+  <form method="post" action="" enctype="multipart/form-data"> <!-- TODO new_event -->
     {% csrf_token %}
     <label for="name">Name:</label>
     <input type="text" name="name" id="name"> <br>

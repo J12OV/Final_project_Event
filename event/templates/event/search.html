@@ -7,14 +7,14 @@
     <h2>Events:</h2>
     <ul>
         {% for event in events %}
-        <li>{{event.name}}</li>
+        <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.name }}</a></li>
         {% endfor %}
         <li></li>
     </ul>
-    <h2>Users:</h2>
+    <h2>Event description</h2>
     <ul>
-        {% for user in users %}
-        <li>{{ user.last_name }}:<b>{{ user.user_events }}</b></li>
+        {% for event in events_desc %}
+            <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

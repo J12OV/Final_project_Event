@@ -36,7 +36,6 @@ urlpatterns = [
     path('delete_event<pk>/', event.views.delete_event, name="delete_event"),
     path('delete_event_yes/<pk>/', event.views.delete_event_yes, name="delete_event_yes"),
     path('edit_event/<pk>/', event.views.EditEvent.as_view(), name="edit_event"),
-    # # path('create_room/new_room', chatterbox.views.new_room, name="create_room"),
 
     # accounts aplikace
     path("accounts/", include("accounts.urls")),

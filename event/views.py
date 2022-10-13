@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import UpdateView
 
-from event.models import Event, Participant, Category
+from event.models import Event, Participant, Category, Message
 
 #
 # # Create your views here.
@@ -32,9 +32,10 @@ def search(request):
         s = s.strip()                                        # ořízneme prázdné znaky
         if len(s) > 0:                                       # pkud s obsahuje alespoň jeden znak
             events = Event.objects.filter(name__contains=s)        # vyfiltruji události dle zadaného řetězce
-            participants = Participant.objects.filter(body__contains=s)  # vyfiltruji uživatele dle zadaného řetezce
+            events_desc = Event.objects.filter(descr__contains=s)        # vyfiltruji události dle zadaného řetězce
+            #participants = Participant.objects.filter(name__contains=s)  # vyfiltruji uživatele dle zadaného řetezce
 
-            context = {'events': events, 'participants': participants, 'search': s }     # výsledky uložím do kontextu
+            context = {'events': events,'events_desc': events_desc, 'search': s }     # výsledky uložím do kontextu
             return render(request, "event/search.html", context)  # vykreslíme stránku s výsledky
         return redirect('home')
 
@@ -53,33 +54,58 @@ def search(request):
 def event(request, pk):
     event = Event.objects.get(id=pk)
     user = User.objects.get(id=request.user.id)
+    messages = Message.objects.filter(event=pk)
 
     if request.method == 'POST':
-        participate = request.POST.get('participate')
-        #participant = Participant.objects.get(user=request.user)
-        try:
+        if request.POST.get("participate"):
             event.participants.add(user)
-           # participant = Participant.objects.create(
-             #   user=request.user,
-             #   event=event,
-          #  )
-        except:
-            print("Participant is already signed up")
-            context = {'event': event, 'error': "Participant is already signed"}
-            return render(request, 'event/event.html', context)
+        else:
+            event.participants.remove(user)
+
+        # try:
+        #     event.participants.add(user)
+        #    # participant = Participant.objects.create(
+        #      #   user=request.user,
+        #      #   event=event,
+        #   #  )
+        # except:
+        #     print("Participant is already signed up")
+        context = {'event': event}
+        return render(request, 'event/event.html', context)
+
+
+    if request.method == 'POST':
+        file_url = ""
+        if request.FILES.get('upload'):                             # pokud jsme poslali soubor přidáním get -->bez obrázku
+            upload = request.FILES['upload']                    # z requestu si vytáhnu soubor
+            file_storage = FileSystemStorage()                  # práce se souborovým systémem
+            file = file_storage.save(upload.name, upload)       # uložíme soubor na disk
+            file_url = file_storage.url(file)                   # vytáhnu ze souboru url adresu a uložím
+        body = request.POST.get('body').strip()
+        if len(body) > 0 or request.FILES['upload']:
+            message = Message.objects.create(
+                user=request.user,
+                event=event,
+                body=body,
+                file=file_url                                   # vložíme url
+            )
+        return HttpResponseRedirect(request.path_info)
 
     #participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
-    context = {'event': event }
+    context = {'event': event, 'messages': messages }
     return render(request, "event/event.html", context)
 
 @login_required
 def events(request):#filter_from, filter_to
     if request.method == 'POST':
-        filter_from = request.POST.get('filter_from')
-        filter_to = request.POST.get('filter_to')
-        current_events = request.POST.get('current_events')
-        current_events = Event.objects.filter(startdatetime__gte=filter_from)
-        events = Event.objects.filter(startdatetime__gte=filter_from, enddatetime__lte=filter_to)
+        if request.POST.get("current_events"):
+            events = Event.objects.filter(startdatetime__gte=datetime.datetime.now())
+        else:
+            filter_from = request.POST.get('filter_from')
+            filter_to = request.POST.get('filter_to')
+            #current_events = request.POST.get('current_events')
+
+            events = Event.objects.filter(startdatetime__gte=filter_from, enddatetime__lte=filter_to)
     else:
         events = Event.objects.all()
 
@@ -87,6 +113,9 @@ def events(request):#filter_from, filter_to
     # filter_from= Event.objects.filter(startdatetime__gte=datetime.datetime.now())
     # filter_to = Event.objects.filter_to(startdatetime__gte=datetime.datetime.now())
     context = {'events': events}
+    # for event in events:
+    #     print(event.participants_count())
+
     return render(request, "event/events.html", context)
 #
 #
@@ -96,6 +125,12 @@ def create_event(request):
         name = request.POST.get('name').strip()
         category_id = request.POST.get('category').strip()
         category = Category.objects.get(id=category_id)
+        file_url = ""
+        if request.FILES.get('upload'):  # pokud jsme poslali soubor přidáním get -->bez obrázku
+            upload = request.FILES['upload']  # z requestu si vytáhnu soubor
+            file_storage = FileSystemStorage()  # práce se souborovým systémem
+            file = file_storage.save(upload.name, upload)  # uložíme soubor na disk
+            file_url = file_storage.url(file)
 
         typeonline = False
         if request.POST.get('typeonline') == 'on':
@@ -109,7 +144,7 @@ def create_event(request):
         enddatetime = request.POST.get('startdatetime').strip()
         organizer = request.POST.get('organizer').strip()
         descr = request.POST.get('descr').strip()
-        photo = request.POST.get('upload')
+    #   photo = request.POST.get('upload')
         try:
             if len(name) > 0:
                 event = Event.objects.create(
@@ -122,6 +157,7 @@ def create_event(request):
                     startdatetime=startdatetime,
                     enddatetime=enddatetime,
                     descr=descr,
+                    photo=file_url
                 )
 
                 return redirect('event', pk=event.id)
@@ -137,11 +173,11 @@ def create_event(request):
 @login_required
 def delete_event(request, pk):
     event = Event.objects.get(id=pk)
-    if event.participants_count() == 0:  # pokud v události není žádná uživatel
+    if event.participants_count == 0:  # pokud v události není žádná uživatel
         event.delete()               # tak místnost smažeme
         return redirect('events')
 
-    context = {'event': event, 'participants_count': event.participants_count()}
+    context = {'event': event, 'participants_count': event.participants_count}
     return render(request, 'event/delete_event.html', context)
 
 def delete_event_yes(request, pk):

@@ -8,16 +8,18 @@
     <div class="list-of-events">List of events:</div>
     <div class="events-list"><br>
         <div class="filter_ev">
-            <button type="current_events">Current events</button>
             <form method="post" action="" id="events-list-form">
-                <a href="{% url 'events'  %}">ALL events &nbsp;&nbsp; </a>
-
-<!--                <a href="{% url 'events' %}">  %}">Current events &nbsp;&nbsp;</a>-->
                 {% csrf_token %}
+                <input type="hidden" name="current_events" value="True" />
+                <button type="submit" >Current events</button>
+                {% csrf_token %}
+                <a href="{% url 'events'  %}">&nbsp;&nbsp;ALL events &nbsp;&nbsp; </a>
+
             <label for="filter_from">Filter from:</label> <input type="datetime-local" name="filter_from" id="filter_from">
             <label for="filter_to">Filter to:</label><input type="datetime-local" name="filter_to" id="filter_to">
             <button type="Submit" name="submit" value="submit">Confirm </button>
             </form>
+
         </div>
             <table class="evt_tab">
                 {% for event in events %}
@@ -44,7 +46,7 @@
                         {% endif %}
                     {% endif %}
                     </td>
-                    </tr><br>
+                    </tr>
 
 
                 {% endfor %}

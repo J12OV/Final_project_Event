@@ -11,6 +11,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 class Participant(models.Model):
     #event = models.ForeignKey(Event, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -27,6 +28,18 @@ class Participant(models.Model):
     def events_count(self):
          user_events = self.event_set.all()
          return user_events.count()
+class Message(models.Model):
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(null=False, blank=False)
+    file = models.TextField(null=True)  # file attribute in model
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created', '-updated']  # descending order
+
+    def __str__(self):
+        return self.body[0:50]
 
 
 class Event(models.Model):
@@ -44,8 +57,8 @@ class Event(models.Model):
     organizer = models.TextField(null=True, blank=True)
     descr = models.TextField(null=True, blank=True)
     photo = models.TextField(null=True, blank=True)
-    participants = models.ManyToManyField(User, related_name='participants', blank=True)
-
+    participants = models.ManyToManyField(User, related_name="evparticipants",  blank=True)
+    # messages = models.ManyToManyField(Message, related_name="evmessages", blank=True)
     # created = models.DateTimeField(auto_now_add=True)
     # updated = models.DateTimeField(auto_now=True)
 
@@ -55,13 +68,36 @@ class Event(models.Model):
     def __str__(self):
         return self.name
 
+    def last_message_time(self):
+        event_message = self.message_set.all()[0]
+        return event_message.updated
+
+
     def participants_count(self):
-        event_participants = self.participant_set.all()
-        return event_participants.count()
+        #eventparticipants = self.participants.evparticipants_set.all()
+        return self.participants.count()
 
     # def last_message_time(self):
     #     room_message = self.message_set.all()[0]
     #     return room_message.updated
+
+
+class Message(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    body = models.TextField(null=False, blank=False)
+    file = models.TextField(null=True)  # file attribute in model
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created', '-updated']  # descending order
+
+    def __str__(self):
+        return self.body[0:50]
+
+
+
 
 
 
