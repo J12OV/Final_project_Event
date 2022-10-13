@@ -33,11 +33,13 @@ header {
 
 nav ul {
     list-style: none;
+    color-background: white;
 }
 
 nav li {
     display: inline-block;
     margin: -3px;
+
     /*
     margin-right: 10px;
     margin-left: 10px;
@@ -51,7 +53,7 @@ nav li {
     margin-right: 40px;
 }
 
-/* home.html */
+
 .user_hello {
     font-size: 32px;
     padding-bottom: 15px;
@@ -61,19 +63,35 @@ nav li {
     font-size: 32px;
 }
 
-/* rooms.html */
+
 .list-of-events {
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .events-list ul {
     list-style: none;
+
 }
 
-/* room.html */
-.room-descr {
-    font-size: 20px;
-    margin-bottom: 20px;
+/* events.html */
+
+/*.td7 {*/
+/*    padding-left: 180px;*/
+/*}*/
+
+
+.filter_ev {
+    margin-left: 300px;
+}
+
+.evt_tab {
+    background-color: #D4D6C2;
+    width:90%;
+    border-style: solid;
+    border-color: black;
+    column-width: 80px;
+    text-align: center;
+
 }
 
 .error {

@@ -1,4 +1,7 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from django.forms import ModelForm
 from django.http import HttpResponseRedirect
@@ -49,45 +52,40 @@ def search(request):
 @login_required
 def event(request, pk):
     event = Event.objects.get(id=pk)
+    user = User.objects.get(id=request.user.id)
+
     if request.method == 'POST':
         participate = request.POST.get('participate')
+        #participant = Participant.objects.get(user=request.user)
         try:
-            participant = Participant.objects.create(
-                user=request.user,
-                event=event,
-            )
+            event.participants.add(user)
+           # participant = Participant.objects.create(
+             #   user=request.user,
+             #   event=event,
+          #  )
         except:
             print("Participant is already signed up")
             context = {'event': event, 'error': "Participant is already signed"}
             return render(request, 'event/event.html', context)
 
-    participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
-
-    # # pokud zadáme novou zprávu, musíme ji zpracovat
-    # if request.method == 'POST':
-    #     file_url = ""
-    #     if request.FILES.get('upload'):                             # pokud jsme poslali soubor přidáním get -->bez obrázku
-    #         upload = request.FILES['upload']                    # z requestu si vytáhnu soubor
-    #         file_storage = FileSystemStorage()                  # práce se souborovým systémem
-    #         file = file_storage.save(upload.name, upload)       # uložíme soubor na disk
-    #         file_url = file_storage.url(file)                   # vytáhnu ze souboru url adresu a uložím
-    #     body = request.POST.get('body').strip()
-    #     if len(body) > 0 or request.FILES['upload']:
-    #         message = Message.objects.create(
-    #             user=request.user,
-    #             room=room,
-    #             body=body,
-    #             file=file_url                                   # vložíme url
-    #         )
-    #     return HttpResponseRedirect(request.path_info)
-    #
-    context = {'event': event, 'participants': participants}
+    #participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
+    context = {'event': event }
     return render(request, "event/event.html", context)
 
 @login_required
-def events(request):
-    events = Event.objects.all()
+def events(request):#filter_from, filter_to
+    if request.method == 'POST':
+        filter_from = request.POST.get('filter_from')
+        filter_to = request.POST.get('filter_to')
+        current_events = request.POST.get('current_events')
+        current_events = Event.objects.filter(startdatetime__gte=filter_from)
+        events = Event.objects.filter(startdatetime__gte=filter_from, enddatetime__lte=filter_to)
+    else:
+        events = Event.objects.all()
 
+    #all = Event.objects.all()
+    # filter_from= Event.objects.filter(startdatetime__gte=datetime.datetime.now())
+    # filter_to = Event.objects.filter_to(startdatetime__gte=datetime.datetime.now())
     context = {'events': events}
     return render(request, "event/events.html", context)
 #
@@ -112,21 +110,24 @@ def create_event(request):
         organizer = request.POST.get('organizer').strip()
         descr = request.POST.get('descr').strip()
         photo = request.POST.get('upload')
+        try:
+            if len(name) > 0:
+                event = Event.objects.create(
+                    host=request.user,
+                    name=name,
+                    category=category,
+                    typeonline=typeonline,
+                    typefysical=typefysical,
+                    location=location,
+                    startdatetime=startdatetime,
+                    enddatetime=enddatetime,
+                    descr=descr,
+                )
 
-        if len(name) > 0:
-            event = Event.objects.create(
-                host=request.user,
-                name=name,
-                category=category,
-                typeonline=typeonline,
-                typefysical=typefysical,
-                location=location,
-                startdatetime=startdatetime,
-                enddatetime=enddatetime,
-                descr=descr,
-            )
+                return redirect('event', pk=event.id)
+        except:
+            print("not filled completely formular")
 
-            return redirect('event', pk=event.id)
 
     categories = Category.objects.all()
     context = {'categories': categories}

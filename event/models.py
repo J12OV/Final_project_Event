@@ -11,7 +11,22 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+class Participant(models.Model):
+    #event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    company_name = models.TextField(null=True, blank=False)
+    photo = models.TextField(null=True, blank=True)
 
+    class Meta:
+        pass
+    #    ordering = ['user.last_name', 'user.first_name']  # descending order
+
+    def __str__(self):
+        return self.event.name
+
+    def events_count(self):
+         user_events = self.event_set.all()
+         return user_events.count()
 
 
 class Event(models.Model):
@@ -35,7 +50,7 @@ class Event(models.Model):
     # updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-startdatetime', '-enddatetime']  # descending order
+        ordering = ['startdatetime', 'enddatetime']  # descending order
 
     def __str__(self):
         return self.name
@@ -51,24 +66,7 @@ class Event(models.Model):
 
 
 
-class Participant(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    company_name = models.TextField(null=True, blank=False)
-    photo = models.TextField(null=True, blank=True)
 
-
-
-    class Meta:
-        pass
-    #    ordering = ['user.last_name', 'user.first_name']  # descending order
-
-    def __str__(self):
-        return self.event.name
-
-    def events_count(self):
-         user_events = self.event_set.all()
-         return user_events.count()
 
 
 

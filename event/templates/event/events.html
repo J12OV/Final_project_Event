@@ -6,28 +6,50 @@
 
 {% block content %}
     <div class="list-of-events">List of events:</div>
-    <div class="events-list">
-        <ul>
-            {% for event in events %}
-            <li>
-                <a href="{% url 'event' event.id %}">{{ event.name }}</a> {{ event.descr }}
-                {% if event.host %}
-                    Host: {{ event.host }}
-                    {% if event.host.id == request.user.id %}  <!-- Pokud je aktuálně přihlášený uživatel "majitel" místnosti -->
-                        <a href="{% url 'delete_event' event.id %}">
-                            <img src="{% static 'event/cross.png'%}" alt='delete' width="12px"></a>
-                        <a href="{% url 'edit_event' event.id %}">edit ✎</a>
+    <div class="events-list"><br>
+        <div class="filter_ev">
+            <button type="current_events">Current events</button>
+            <form method="post" action="" id="events-list-form">
+                <a href="{% url 'events'  %}">ALL events &nbsp;&nbsp; </a>
 
+<!--                <a href="{% url 'events' %}">  %}">Current events &nbsp;&nbsp;</a>-->
+                {% csrf_token %}
+            <label for="filter_from">Filter from:</label> <input type="datetime-local" name="filter_from" id="filter_from">
+            <label for="filter_to">Filter to:</label><input type="datetime-local" name="filter_to" id="filter_to">
+            <button type="Submit" name="submit" value="submit">Confirm </button>
+            </form>
+        </div>
+            <table class="evt_tab">
+                {% for event in events %}
+                    <tr><td class="td1"><a href="{% url 'event' event.id %}">{{ event.name }}</a></td>
+                        <td class="td2"> {{ event.category}}</td>
+                        <td class="td3">{{ event.startdatetime }}</td>
+                        <td class="td4">{{ event.enddatetime }}</td>
+                        <td class="td5"> {{ event.descr }}</td>
+                    <td class="td6">
+                    {% if event.participants_count > 0 %}
+                        ({{ event.participants_count }} participants)
+                    {% else %}
+                        (no participants joined )
                     {% endif %}
-                {% endif %}
-                {% if event.participants_count > 0 %}
-                    ({{ event.participants_count }} participants)
-                {% else %}
-                    (no participants joined )
-                {% endif %}
-            </li>
-            {% endfor %}
-        </ul>
+                    </td>
+                    <td class="td6">
+                    {% if event.host %}
+                        Host: {{ event.host }}
+                        {% if event.host.id == request.user.id %}  <!-- Pokud je aktuálně přihlášený uživatel "majitel" místnosti -->
+                            <a href="{% url 'delete_event' event.id %}">
+                                <img src="{% static 'event/cross.png'%}" alt='delete' width="12px"></a>
+                            <a href="{% url 'edit_event' event.id %}">edit ✎</a>
+
+                        {% endif %}
+                    {% endif %}
+                    </td>
+                    </tr><br>
+
+
+                {% endfor %}
+            </table>
+
     </div>
 
 {% endblock %}
