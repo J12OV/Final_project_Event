@@ -3,8 +3,7 @@
 {% block title %}Event: {{ Event.name }} {% endblock %}
 
 {% block content %}
-
-<div class="name"> Event name: {{ event.name }}</div>
+<div class="attrib">
 <!--TODO category -->
 <div class="category"> Event category: {{ event.category }}</div>
 <div class="typeonline"> Event type: {{ event.typeonline }}</div>
@@ -17,6 +16,8 @@
 <div class="photo"> Photo:
   <a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a>
 </div>
+</div>
+
 <form method="post" action="">
      {% csrf_token %}
 
@@ -44,10 +45,12 @@
 <div class="message-form">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="body">Message: </label>
-            <textarea name="body" id="body" rows="1" cols="100"> </textarea>
+            <label for="body">COMMENT: </label><br>
+            <textarea name="body" id="body" rows="1" cols="100" > </textarea><br>
+            <div class="B_upload_send">
             <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt ,image/*,*" -->
             <input type="submit" value="Send">
+            </div>
         </form>
 </div>
 
