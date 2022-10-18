@@ -22,20 +22,24 @@
 
     {% if request.user in event.participants.all %}
          <label for="logout">I want to logout:</label>
-         <input type="checkbox" name="logout" id="logout" value="True">
+         <input type="checkbox" name="logout" id="logout">
     {% else %}
         <label for="participate">I want to participate:</label>
-        <input type="checkbox" name="participate" id="participate" value="True">
+        <input type="checkbox" name="participate" id="participate">
     {% endif %}
 <button type="submit">Submit</button><br><br>
 <div class="error">
 {% if error %}Error: {{ error }}	{% endif %}
 </div>
-
-
 </form>
+
 {% if event.user.id == request.user.id %}
     <a href="{% url 'edit_event' %}">EDIT EVENT</a>
+{% endif %}
+{% if event.host.id == request.user.id %}
+{% for participant in event.participants.all %}
+   {{ participant }} <br>
+{% endfor %}
 {% endif %}
 <div class="message-form">
         <form action="" method="POST" enctype="multipart/form-data">
@@ -47,7 +51,7 @@
         </form>
 </div>
 
- <div class="messages-box">
+    <div class="messages-box">
     {% for message in messages %}
         {% if message.user == request.user %}
             <div class="my-message">

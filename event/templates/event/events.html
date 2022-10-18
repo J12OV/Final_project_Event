@@ -12,9 +12,10 @@
                 {% csrf_token %}
                 <input type="hidden" name="current_events" value="True" />
                 <button type="submit" >Current events</button>
+                <a class = "link" href="{% url 'events'  %}">&nbsp;&nbsp;ALL events &nbsp;&nbsp; </a>
+            </form>
+            <form method="post" action="" >
                 {% csrf_token %}
-                <a href="{% url 'events'  %}">&nbsp;&nbsp;ALL events &nbsp;&nbsp; </a>
-
             <label for="filter_from">Filter from:</label> <input type="datetime-local" name="filter_from" id="filter_from">
             <label for="filter_to">Filter to:</label><input type="datetime-local" name="filter_to" id="filter_to">
             <button type="Submit" name="submit" value="submit">Confirm </button>

@@ -28,18 +28,7 @@ class Participant(models.Model):
     def events_count(self):
          user_events = self.event_set.all()
          return user_events.count()
-class Message(models.Model):
-    #user = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField(null=False, blank=False)
-    file = models.TextField(null=True)  # file attribute in model
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        ordering = ['-created', '-updated']  # descending order
-
-    def __str__(self):
-        return self.body[0:50]
 
 
 class Event(models.Model):
@@ -77,9 +66,7 @@ class Event(models.Model):
         #eventparticipants = self.participants.evparticipants_set.all()
         return self.participants.count()
 
-    # def last_message_time(self):
-    #     room_message = self.message_set.all()[0]
-    #     return room_message.updated
+
 
 
 class Message(models.Model):

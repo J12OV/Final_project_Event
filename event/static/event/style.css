@@ -7,29 +7,6 @@ header {
     font-size: 40px;
 }
 
-/* css for search */
-#search {
-   position: absolute;
-   top: 10px;
-   right: 28px;
-   height: 50px;
-   line-height: 50px;
-}
-
-#search input.text {
-   padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
-   color: black;
-   width: 200px;
-   border: solid 1px #3c3c3c;
-}
-#search .search-button{
-   padding: 10px 40px 10px 10px;
-   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
-   color: black;
-   width: 200px;
-   border: solid 1px #3c3c3c;
-}
 
 nav ul {
     list-style: none;
@@ -52,17 +29,9 @@ nav li {
     float: right;
     margin-right: 40px;
 }
-
-
-.user_hello {
-    font-size: 32px;
-    padding-bottom: 15px;
-}
-
 .welcome {
     font-size: 32px;
 }
-
 
 .list-of-events {
     font-size: 24px;
@@ -74,15 +43,16 @@ nav li {
 
 }
 
-/* events.html */
+.event-descr {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
 
-/*.td7 {*/
-/*    padding-left: 180px;*/
-/*}*/
 
 
-.filter_ev {
-
+.user_hello {
+    font-size: 32px;
+    padding-bottom: 15px;
 }
 
 .evt_tab {
@@ -93,7 +63,6 @@ nav li {
     column-width: 80px;
     text-align: center;
     margin-top: 30px;
-
 
 }
 
@@ -114,20 +83,23 @@ input[type=submit] {
     width: 50px;
 }
 
-.messages-box {
+
+.form-name {
+    margin-bottom: 15px;
 }
 
-.other-message-body {
-    background: white;
-    width: 80%;
-    border: solid 3px #4432a8;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
+.label {
+    width: 90px;
+    float:left;
 }
 
-.my-message {
+.submit {
+    margin-left: 90px;
+}
 
+/* login.html */
+.form-row {
+    margin-bottom: 15px;
 }
 
 .my-message-info {
@@ -177,21 +149,49 @@ input[type=submit] {
     margin-left: auto;
 }
 
-/* create_room.html */
-.form-name {
-    margin-bottom: 15px;
+
+.messages-box {
 }
 
-.label {
-    width: 90px;
-    float:left;
+.other-message-body {
+    background: white;
+    width: 80%;
+    border: solid 3px #4432a8;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-.submit {
-    margin-left: 90px;
+.my-message {
+    background: white;
+    width: 80%;
+    border: solid 3px #b81a51;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+/* css for search */
+#search {
+   position: absolute;
+   top: 10px;
+   right: 28px;
+   height: 50px;
+   line-height: 50px;
 }
 
-/* login.html */
-.form-row {
-    margin-bottom: 15px;
+#search input.text {
+   padding: 10px 40px 10px 10px;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
+   color: black;
+   width: 200px;
+   border: solid 1px #3c3c3c;
+}
+#search .search-button{
+   padding: 10px 40px 10px 10px;
+   background: rgba(222, 231, 250, 1) url(/static/event/search.png) top right no-repeat;
+   color: black;
+   width: 200px;
+   border: solid 1px #3c3c3c;
 }

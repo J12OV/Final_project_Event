@@ -55,44 +55,35 @@ def event(request, pk):
     event = Event.objects.get(id=pk)
     user = User.objects.get(id=request.user.id)
     messages = Message.objects.filter(event=pk)
+    participants = event.participants
 
     if request.method == 'POST':
         if request.POST.get("participate"):
+            #if request.POST.get("participate") == "checked":
             event.participants.add(user)
-        else:
+        if request.POST.get("logout"):
+            #if request.POST.get("logout") == "checked":
             event.participants.remove(user)
-
-        # try:
-        #     event.participants.add(user)
-        #    # participant = Participant.objects.create(
-        #      #   user=request.user,
-        #      #   event=event,
-        #   #  )
-        # except:
-        #     print("Participant is already signed up")
-        context = {'event': event}
-        return render(request, 'event/event.html', context)
-
-
-    if request.method == 'POST':
         file_url = ""
-        if request.FILES.get('upload'):                             # pokud jsme poslali soubor přidáním get -->bez obrázku
-            upload = request.FILES['upload']                    # z requestu si vytáhnu soubor
-            file_storage = FileSystemStorage()                  # práce se souborovým systémem
-            file = file_storage.save(upload.name, upload)       # uložíme soubor na disk
-            file_url = file_storage.url(file)                   # vytáhnu ze souboru url adresu a uložím
-        body = request.POST.get('body').strip()
-        if len(body) > 0 or request.FILES['upload']:
-            message = Message.objects.create(
-                user=request.user,
-                event=event,
-                body=body,
-                file=file_url                                   # vložíme url
-            )
+        if request.FILES.get('upload'):  # pokud jsme poslali soubor přidáním get -->bez obrázku
+            upload = request.FILES['upload']  # z requestu si vytáhnu soubor
+            file_storage = FileSystemStorage()  # práce se souborovým systémem
+            file = file_storage.save(upload.name, upload)  # uložíme soubor na disk
+            file_url = file_storage.url(file)  # vytáhnu ze souboru url adresu a uložím
+        if request.POST.get('body'):
+            body = request.POST.get('body').strip()
+            if len(body) > 0 or request.FILES['upload']:
+                message = Message.objects.create(
+                    user=request.user,
+                    event=event,
+                    body=body,
+                    file=file_url  # vložíme url
+                )
         return HttpResponseRedirect(request.path_info)
 
-    #participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
-    context = {'event': event, 'messages': messages }
+
+        #participants = Participant.objects.filter(event=pk)  # vybereme všechny uživatele dané události
+    context = {'event': event, 'messages': messages, 'participants': participants}
     return render(request, "event/event.html", context)
 
 @login_required
