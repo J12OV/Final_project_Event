@@ -3,51 +3,83 @@
 {% block title %}Event: {{ Event.name }} {% endblock %}
 
 {% block content %}
-
-<div class="name"> Event name: {{ event.name }}</div>
-<!--TODO category -->
-<div class="category"> Event category: {{ event.category }}</div>
-<div class="typeonline"> Event type: {{ event.typeonline }}</div>
-<div class="typefysical"> Event type: {{ event.typefysical }}</div>
-<div class="location"> Location: {{ event.location }}</div>
-<div class="startdatetime"> Date from: {{ event.startdatetime }}</div>
-<div class="enddatetime"> Date till: {{ event.enddatetime }}</div>
-<div class="organizer"> Organizer name: {{ event.organizer }}</div>
-<div class="descr"> Description:{{ event.descr }}</div>
-<div class="photo"> Photo:
-  <a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a>
+<div class="container-fluid">
+<table class="table">
+    <tr>
+        <td>Event name:</td>
+        <td>{{ event.name }}</td>
+    </tr>
+    <tr>
+        <td>Event category:</td>
+        <td>{{ event.category }}</td>
+    </tr>
+    <tr>
+        <td>Event type:</td>
+        <td>{{ event.typeonline }}</td>
+    </tr>
+    <tr>
+        <td>Event fysical:</td>
+        <td>{{ event.fysical }}</td>
+    </tr>
+    <tr>
+        <td>Location</td>
+        <td>{{ event.location }}</td>
+    </tr>
+    <tr>
+        <td>Date from:</td>
+        <td>{{ event.startdatetime }}</td>
+    </tr>
+    <tr>
+        <td>Date till:</td>
+        <td>{{ event.enddatetime }}</td>
+    </tr>
+    <tr>
+        <td>Organizer name:</td>
+        <td>{{ event.organizer }}</td>
+    </tr>
+    <tr>
+        <td>Description:</td>
+        <td>{{ event.descr }}</td>
+    </tr>
+    <tr>
+        <td>Photo:</td>
+        <td><a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a></td>
+    </tr>
+</table>
 </div>
+<div class="container-fluid">
 <form method="post" action="">
      {% csrf_token %}
 
     {% if request.user in event.participants.all %}
-         <label for="logout">I want to logout:</label>
-         <input type="checkbox" name="logout" id="logout">
+          <button class="btn btn-danger btn-lg" type="submit">I want to logout</button>
+         <input class="form-check-input mx-3 form-control-lg" type="checkbox" name="logout" id="logout">
     {% else %}
-        <label for="participate">I want to participate:</label>
-        <input type="checkbox" name="participate" id="participate">
+        <button class="btn btn-success btn-lg" type="submit">I want to participate</button>
+        <input class="form-check-input mx-3 form-control-lg" type="checkbox" name="participate" id="participate">
     {% endif %}
-<button type="submit">Submit</button><br><br>
-<div class="error">
-{% if error %}Error: {{ error }}	{% endif %}
-</div>
-</form>
 
+</form>
+</div>
+<div class="container-fluid mt-3">
 {% if event.user.id == request.user.id %}
     <a href="{% url 'edit_event' %}">EDIT EVENT</a>
 {% endif %}
 {% if event.host.id == request.user.id %}
 {% for participant in event.participants.all %}
-   {{ participant }} <br>
+  List of participants: {{ participant }} <br>
 {% endfor %}
 {% endif %}
+</div>
 <div class="message-form">
         <form action="" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="body">Message: </label>
-            <textarea name="body" id="body" rows="1" cols="100"> </textarea>
+            <label for="body">COMMENT: </label><br>
+            <textarea name="body" id="body" rows="1" cols="100" > </textarea><br>
+            <div class="B_upload_send">
             <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt ,image/*,*" -->
             <input type="submit" value="Send">
+            </div>
         </form>
 </div>
 

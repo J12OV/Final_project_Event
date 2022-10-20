@@ -8,22 +8,34 @@
     <div class="list-of-events">List of events:</div>
     <div class="events-list"><br>
         <div class="filter_ev">
-            <form method="post" action="" id="events-list-form">
+            <div class="container-fluid my-3">
+            <form class="d-inline-block" method="post" action="" id="events-list-form">
                 {% csrf_token %}
                 <input type="hidden" name="current_events" value="True" />
                 <button type="submit" >Current events</button>
                 <a class = "link" href="{% url 'events'  %}">&nbsp;&nbsp;ALL events &nbsp;&nbsp; </a>
             </form>
-            <form method="post" action="" >
+
+            <form class="d-inline-block" method="post" action="" >
                 {% csrf_token %}
             <label for="filter_from">Filter from:</label> <input type="datetime-local" name="filter_from" id="filter_from">
             <label for="filter_to">Filter to:</label><input type="datetime-local" name="filter_to" id="filter_to">
             <button type="Submit" name="submit" value="submit">Confirm </button>
             </form>
-
+            </div>
         </div>
-            <table class="evt_tab">
+        <div class="container-fluid">
+            <table class="table table-striped my-3">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">First</th>
+                      <th scope="col">Last</th>
+                      <th scope="col">Handle</th>
+                    </tr>
+                </thead>
                 {% for event in events %}
+
                     <tr><td class="td1"><a href="{% url 'event' event.id %}">{{ event.name }}</a></td>
                         <td class="td2"> {{ event.category}}</td>
                         <td class="td3">{{ event.startdatetime }}</td>
@@ -31,18 +43,26 @@
                         <td class="td5"> {{ event.descr }}</td>
                     <td class="td6">
                     {% if event.participants_count > 0 %}
-                        ({{ event.participants_count }} participants)
+                    <button type="button" class="btn btn-success">
+                        Participant <span class="badge text-bg-primary"> {{ event.participants_count }} </span>
+                    </button>
                     {% else %}
-                        (no participants joined )
+                    <button type="button" class="btn btn-outline-danger">
+                        Participant <span class="badge text-bg-primary"> 0 </span>
+                    </button>
+
                     {% endif %}
                     </td>
                     <td class="td6">
                     {% if event.host %}
                         Host: {{ event.host }}
                         {% if event.host.id == request.user.id %}  <!-- Pokud je aktuálně přihlášený uživatel "majitel" místnosti -->
-                            <a href="{% url 'delete_event' event.id %}">
-                                <img src="{% static 'event/cross.png'%}" alt='delete' width="12px"></a>
-                            <a href="{% url 'edit_event' event.id %}">edit ✎</a>
+                            <a class="btn btn-danger" href="{% url 'delete_event' event.id %}"><i class="bi bi-trash"></i> Delete</a>
+                            <a class="btn btn-outline-warning" href="{% url 'edit_event' event.id %}"><i class="bi bi-pen"></i> edit</a>
+<!--                            <a href="{% url 'delete_event' event.id %}">-->
+<!--                                <img src="{% static 'event/cross.png'%}" alt='delete' width="12px"></a>-->
+<!--                            <a href="{% url 'edit_event' event.id %}">edit ✎</a>-->
+
 
                         {% endif %}
                     {% endif %}
@@ -52,7 +72,7 @@
 
                 {% endfor %}
             </table>
-
+        </div>
     </div>
 
 {% endblock %}

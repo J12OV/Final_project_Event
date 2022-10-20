@@ -19,10 +19,17 @@ import event.views
 
 from django.conf import settings  # add this
 from django.conf.urls.static import static  # add this
+from ninja import NinjaAPI
+from event.api import router
+
+api = NinjaAPI()
+api.add_router("/", router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/", api.urls),
     path('', event.views.home, name='home'),
+
 
 
     # path(<cesta>, <view>, name=<name>)
