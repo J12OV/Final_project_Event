@@ -22,12 +22,7 @@
             <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.name }}</a></li>
         {% endfor %}
     </ul>
-<!--        <h5>Event start</h5>-->
-<!--    <ul>-->
-<!--        {% for event in events_start %}-->
-<!--            <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.startdatetime }}</a></li>-->
-<!--        {% endfor %}-->
-<!--    </ul>-->
+
 </div>
 </table>
 {% endblock %}
