@@ -10,18 +10,42 @@
 </head>
 <body>
 
-<header> Event </header>
+<header></header>
+    <!-- {% if request.user.is_authenticated %}-->
+    <!--                <div class="navbar bg-light">-->
 
-{% if request.user.is_authenticated %}
-<div id="search">
-    <form action="/search/" method="post">
-        <div>
-            {% csrf_token %}
-            <input class="text" name="search" size="32" />
-        </div>
-    </form>
-</div>
-{% endif %}
+    <!--                    <div class="container-fluid">-->
+    <!--                        <a class="navbar-brand"></a>-->
+    <!--                        <form class="d-flex" action="/search/" method="post" role="search">-->
+    <!--                            {% csrf_token %}-->
+    <!--                            <input class="form-control me-sm-2" type="search" name="search" placeholder="Search"-->
+    <!--                                   aria-label="Search">-->
+    <!--                            <button class="btn btn-outline-success" type="submit">Search</button>-->
+    <!--                        </form>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                {% endif %}-->
+<!--{% if request.user.is_authenticated %}-->
+<!--<nav class="navbar bg-light">-->
+
+<!--    <div class="container-fluid">-->
+<!--        <a class="navbar-brand">Navbar</a>-->
+<!--        <form class="d-flex" action="/search/" method="post" role="search">-->
+<!--            {% csrf_token %}-->
+<!--            <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">-->
+<!--            <button class="btn btn-outline-success" type="submit">Search</button>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--<div id="search">-->
+<!--    <form action="/search/" method="post">-->
+<!--        <div>-->
+<!--            {% csrf_token %}-->
+<!--            <input class="text" name="search" size="32" />-->
+<!--        </div>-->
+<!--    </form>-->
+<!--</div>-->
+<!--{% endif %}-->
 
 
   {% include 'navbar.html' %}

@@ -3,18 +3,31 @@
 {% block title %}Event - search {% endblock %}
 
 {% block content %}
-    <h1>Výsledky hledání "{{ search }}</h1>
-    <h2>Events:</h2>
+<table>
+
+<div class="container-fluid" ><br><br><br>
+
+<!--    <p class="fs-5" >.fs-1 text</p>-->
+    <h4>Výsledky hledání "{{ search }}"</h4><br>
+    <p class="fs-5">Event name:</p>
     <ul>
         {% for event in events %}
         <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.name }}</a></li>
         {% endfor %}
-        <li></li>
+
     </ul>
-    <h2>Event description</h2>
+    <p class="fs-5">Event description</p>
     <ul>
         {% for event in events_desc %}
             <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.name }}</a></li>
         {% endfor %}
     </ul>
+<!--        <h5>Event start</h5>-->
+<!--    <ul>-->
+<!--        {% for event in events_start %}-->
+<!--            <li>{{event.name}} <a href="{% url 'event' event.id %}">{{ event.startdatetime }}</a></li>-->
+<!--        {% endfor %}-->
+<!--    </ul>-->
+</div>
+</table>
 {% endblock %}

@@ -6,11 +6,10 @@
 
 {% block content %}
     Do you really want to delete event <b> {{ event.name }}</b>, which contain <b> {{ participant.count }}</b>.
-    <div class="yes">
-        <a href="{% url 'delete_event_yes' event.id %}">YES</a>
-    </div>
-    <div class="no">
-        <a href="{% url 'events' %}">NO</a>
+    <div>
+        <a class="btn btn-success mx-5 inline-block" href="{% url 'delete_event_yes' event.id %}">YES</a>
+
+        <a class="btn btn-danger mx-5 inline-block" href="{% url 'events' %}">NO</a>
     </div>
 
 {% endblock %}

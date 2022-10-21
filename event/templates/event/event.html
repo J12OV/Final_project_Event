@@ -5,45 +5,56 @@
 {% block content %}
 <div class="container-fluid">
 <table class="table">
-    <tr>
-        <td>Event name:</td>
-        <td>{{ event.name }}</td>
+     <tr class="d-flex">
+        <th class="col-4">Event name:</th>
+         <th class="col-3">{{ event.name }}</th>
+    </tr>
+    <tr class="d-flex">
+         <td class="col-4">Event category:</td>
+         <td class="col-3">{{ event.category }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">Event type:</td>
+        <td class="col-3">{{ event.typeonline }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">Event fysical:</td>
+        <td class="col-3">{{ event.fysical }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">Location</td>
+        <td class="col-3">{{ event.location }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">>Date from:</td>
+        <td class="col-3">{{ event.startdatetime }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">Date till:</td>
+        <td class="col-3">{{ event.enddatetime }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">>Organizer name:</td>
+        <td class="col-3">{{ event.organizer }}</td>
+    </tr>
+    <tr class="d-flex">
+        <td class="col-4">Description:</td>
+        <td class="col-3">{{ event.descr }}</td>
+    </tr>
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+     <tr class="d-flex">
+            <td>Photo:
+            <a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a></td>
+            <td class="col-10"><input type="file" name="upload" accept="*"></td>
+     </tr>
+     <tr class="d-flex">
+            <td><label for="body">COMMENT: </label></td>
+            <td><textarea name="body" id="body" rows="1" cols="100" > </textarea></td>
+            <td><input type="submit" class="btn btn-success"value="Send"></td>
     </tr>
     <tr>
-        <td>Event category:</td>
-        <td>{{ event.category }}</td>
-    </tr>
-    <tr>
-        <td>Event type:</td>
-        <td>{{ event.typeonline }}</td>
-    </tr>
-    <tr>
-        <td>Event fysical:</td>
-        <td>{{ event.fysical }}</td>
-    </tr>
-    <tr>
-        <td>Location</td>
-        <td>{{ event.location }}</td>
-    </tr>
-    <tr>
-        <td>Date from:</td>
-        <td>{{ event.startdatetime }}</td>
-    </tr>
-    <tr>
-        <td>Date till:</td>
-        <td>{{ event.enddatetime }}</td>
-    </tr>
-    <tr>
-        <td>Organizer name:</td>
-        <td>{{ event.organizer }}</td>
-    </tr>
-    <tr>
-        <td>Description:</td>
-        <td>{{ event.descr }}</td>
-    </tr>
-    <tr>
-        <td>Photo:</td>
-        <td><a href="{{ event.photo }}"><img src="{{ event.photo }}" width="50px"></a></td>
+        </form>
     </tr>
 </table>
 </div>
@@ -62,26 +73,26 @@
 </form>
 </div>
 <div class="container-fluid mt-3">
-{% if event.user.id == request.user.id %}
+    {% if event.user.id == request.user.id %}
     <a href="{% url 'edit_event' %}">EDIT EVENT</a>
-{% endif %}
-{% if event.host.id == request.user.id %}
-{% for participant in event.participants.all %}
-  List of participants: {{ participant }} <br>
-{% endfor %}
-{% endif %}
+    {% endif %}
+    {% if event.host.id == request.user.id %}
+    {% for participant in event.participants.all %}
+    List of participants: {{ participant }} <br>
+    {% endfor %}
+    {% endif %}
 </div>
-<div class="message-form">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            <label for="body">COMMENT: </label><br>
-            <textarea name="body" id="body" rows="1" cols="100" > </textarea><br>
-            <div class="B_upload_send">
-            <input type="file" name="upload" accept="*">  <!-- accept=".doc, .pdf, .txt ,image/*,*" -->
-            <input type="submit" value="Send">
-            </div>
-        </form>
-</div>
+<!--<div class="message-form">-->
+<!--        <form action="" method="POST" enctype="multipart/form-data">-->
+<!--            {% csrf_token %}-->
+<!--            <label for="body">COMMENT: </label><br>-->
+<!--            <textarea name="body" id="body" rows="1" cols="100" > </textarea><br>-->
+<!--            <div class="B_upload_send">-->
+<!--            <input type="file" name="upload" accept="*">  &lt;!&ndash; accept=".doc, .pdf, .txt ,image/*,*" &ndash;&gt;-->
+<!--            <input type="submit" value="Send">-->
+<!--            </div>-->
+<!--        </form>-->
+<!--</div>-->
 
     <div class="messages-box">
     {% for message in messages %}

@@ -5,33 +5,49 @@
 {% block title %}Event - events{% endblock %}
 
 {% block content %}
-    <div class="list-of-events">List of events:</div>
+
+<div class="d-grid gap-2">
+  <button class="btn btn-outline-info" type="button">LIST OF EVENTS</button>
+</div>
     <div class="events-list"><br>
         <div class="filter_ev">
             <div class="container-fluid my-3">
+                <table>
             <form class="d-inline-block" method="post" action="" id="events-list-form">
                 {% csrf_token %}
-                <input type="hidden" name="current_events" value="True" />
-                <button type="submit" >Current events</button>
-                <a class = "link" href="{% url 'events'  %}">&nbsp;&nbsp;ALL events &nbsp;&nbsp; </a>
+              <th>
+
+                <th><input type="hidden" name="current_events" value="True" />
+                <button type="submit" class="btn btn-secondary" >Current events</button></th>
+                  <th><a class = "btn btn-secondary mx-5" href="{% url 'events'  %}">ALL events</a></th>
             </form>
 
             <form class="d-inline-block" method="post" action="" >
                 {% csrf_token %}
-            <label for="filter_from">Filter from:</label> <input type="datetime-local" name="filter_from" id="filter_from">
-            <label for="filter_to">Filter to:</label><input type="datetime-local" name="filter_to" id="filter_to">
-            <button type="Submit" name="submit" value="submit">Confirm </button>
+
+            <th><label for="filter_from" class="btn btn-light md-1">Filter from:</label></th>
+                <th><input type="datetime-local" class="btn btn-light md-2" name="filter_from" id="filter_from"></th>
+            <th><label for="filter_to" class="btn btn-light md-1">Filter to:</label></th>
+                <th><input type="datetime-local" class="btn btn-light md-2" name="filter_to" id="filter_to"></th>
+            <th><button type="Submit" class="btn btn-secondary mx-2" name="submit" value="submit">Confirm </button></th>
+            </tr>
             </form>
+
+            </table>
             </div>
         </div>
         <div class="container-fluid">
             <table class="table table-striped my-3">
                 <thead>
                     <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">First</th>
-                      <th scope="col">Last</th>
-                      <th scope="col">Handle</th>
+                      <th scope="col">Event Tittle</th>
+                      <th scope="col">Category</th>
+                      <th scope="col">Begin</th>
+                      <th scope="col">End</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Count</th>
+                      <th scope="col">Organizer</th>
+
                     </tr>
                 </thead>
                 {% for event in events %}
@@ -57,11 +73,9 @@
                     {% if event.host %}
                         Host: {{ event.host }}
                         {% if event.host.id == request.user.id %}  <!-- Pokud je aktuálně přihlášený uživatel "majitel" místnosti -->
-                            <a class="btn btn-danger" href="{% url 'delete_event' event.id %}"><i class="bi bi-trash"></i> Delete</a>
                             <a class="btn btn-outline-warning" href="{% url 'edit_event' event.id %}"><i class="bi bi-pen"></i> edit</a>
-<!--                            <a href="{% url 'delete_event' event.id %}">-->
-<!--                                <img src="{% static 'event/cross.png'%}" alt='delete' width="12px"></a>-->
-<!--                            <a href="{% url 'edit_event' event.id %}">edit ✎</a>-->
+                            <a class="btn btn-danger" href="{% url 'delete_event' event.id %}"><i class="bi bi-trash"></i> Delete</a>
+
 
 
                         {% endif %}

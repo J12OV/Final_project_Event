@@ -32,10 +32,11 @@ def search(request):
         s = s.strip()                                        # ořízneme prázdné znaky
         if len(s) > 0:                                       # pkud s obsahuje alespoň jeden znak
             events = Event.objects.filter(name__contains=s)        # vyfiltruji události dle zadaného řetězce
-            events_desc = Event.objects.filter(descr__contains=s)        # vyfiltruji události dle zadaného řetězce
+            events_desc = Event.objects.filter(descr__contains=s)
+            events_start =  Event.objects.filter(startdatetime__contains=s)# vyfiltruji události dle zadaného řetězce
             #participants = Participant.objects.filter(name__contains=s)  # vyfiltruji uživatele dle zadaného řetezce
 
-            context = {'events': events,'events_desc': events_desc, 'search': s }     # výsledky uložím do kontextu
+            context = {'events': events,'events_desc': events_desc, 'events_start': events_start, 'search': s }     # výsledky uložím do kontextu
             return render(request, "event/search.html", context)  # vykreslíme stránku s výsledky
         return redirect('home')
 

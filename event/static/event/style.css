@@ -1,34 +1,36 @@
 /* common styles */
-body {
-    background: #8742f5;
-}
+/*body {*/
+/*    background: #8742f5;*/
+/*}*/
 
-header {
-    font-size: 40px;
-}
+/*header {*/
+/*    font-size: 40px;*/
+/*}*/
 
+/*.navbar-brand1 {*/
+/* background-color: #8742f5;*/
+/*}*/
+/*nav ul {*/
+/*    list-style: none;*/
+/*    color-background: white;*/
+/*}*/
 
-nav ul {
-    list-style: none;
-    color-background: white;
-}
+/*nav li {*/
+/*    display: inline-block;*/
+/*    margin: -3px;*/
 
-nav li {
-    display: inline-block;
-    margin: -3px;
+/*    !**/
+/*    margin-right: 10px;*/
+/*    margin-left: 10px;*/
+/*    *!*/
+/*    border: solid 2px #4432a8;*/
+/*    padding: 10px;*/
+/*}*/
 
-    /*
-    margin-right: 10px;
-    margin-left: 10px;
-    */
-    border: solid 2px #4432a8;
-    padding: 10px;
-}
-
-.last-item{
-    float: right;
-    margin-right: 40px;
-}
+/*.last-item{*/
+/*    float: right;*/
+/*    margin-right: 40px;*/
+/*}*/
 .welcome {
     font-size: 32px;
 }
@@ -43,10 +45,10 @@ nav li {
 
 }
 
-.event-descr {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
+/*.event-descr {*/
+/*    font-size: 20px;*/
+/*    margin-bottom: 20px;*/
+/*}*/
 
 
 
@@ -57,26 +59,21 @@ nav li {
 /*  create_event */
 
 .cei{
-    margin-left: 
+    margin-left:
 }
 
 /*  event_id */
-.attrib {
 
+/*.evt_tab {*/
+/*    background-color: #D4D6C2;*/
+/*    width:90%;*/
+/*    border-style: solid;*/
+/*    border-color: black;*/
+/*    column-width: 80px;*/
+/*    text-align: center;*/
+/*    margin-top: 30px;*/
 
-
-
-}
-.evt_tab {
-    background-color: #D4D6C2;
-    width:90%;
-    border-style: solid;
-    border-color: black;
-    column-width: 80px;
-    text-align: center;
-    margin-top: 30px;
-
-}
+/*}*/
 
 .error {
     font-size: 16px;
@@ -91,31 +88,31 @@ nav li {
     background-color: #7720A2FF;
 }
 
-.B_upload_send {
-    margin-left: 50%;
-}
+/*.B_upload_send {*/
+/*    margin-left: 50%;*/
+/*}*/
 
-input[type=text] {
-    width: 400px;
-}
+/*input[type=text] {*/
+/*    width: 400px;*/
+/*}*/
 
-input[type=submit] {
-    width: 50px;
-}
+/*input[type=submit] {*/
+/*    width: 50px;*/
+/*}*/
 
 
-.form-name {
-    margin-bottom: 15px;
-}
+/*.form-name {*/
+/*    margin-bottom: 15px;*/
+/*}*/
 
-.label {
-    width: 90px;
-    float:left;
-}
+/*.label {*/
+/*    width: 90px;*/
+/*    float:left;*/
+/*}*/
 
-.submit {
-    margin-left: 90px;
-}
+/*.submit {*/
+/*    margin-left: 90px;*/
+/*}*/
 
 /* login.html */
 .form-row {
