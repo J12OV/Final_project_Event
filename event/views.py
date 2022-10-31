@@ -133,7 +133,7 @@ def create_event(request):
 
         location = request.POST.get('location').strip()
         startdatetime = request.POST.get('startdatetime').strip()
-        enddatetime = request.POST.get('startdatetime').strip()
+        enddatetime = request.POST.get('enddatetime').strip()
         organizer = request.POST.get('organizer').strip()
         descr = request.POST.get('descr').strip()
     #   photo = request.POST.get('upload')

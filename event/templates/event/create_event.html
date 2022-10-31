@@ -7,7 +7,7 @@
    <table class="table">
         <!--    <div class="container-fluid">-->
 
-        {% csrf_token %}
+            {% csrf_token %}
         <tr>
             <td><label for="name">Name:</label></td>
             <td><input class="cei" type="text" name="name" id="name"></td>
@@ -52,10 +52,11 @@
             <td><label for="descr">Description:</label></td>
             <td><input class="cei" type="text" name="descr" id="descr"></td>
         </tr>
-        <tr>
-            <button class="btn btn-dark" type="submit">Create</button>
-        </tr>
-        <!--</div>-->
+
+
     </table>
+
+           <button class="btn btn-dark large mx-xxl-5" type="submit">Create</button>
+
 </form>
     {% endblock %}
